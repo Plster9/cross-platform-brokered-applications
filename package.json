@@ -1,0 +1,33 @@
+{
+  "name": "cross-platform-brokered-applications",
+  "version": "1.0.0",
+  "description": "Cross-platform Brokered Application Reference Implementation",
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oceanware/cross-platform-brokered-applications.git"
+  },
+  "scripts": {
+    "start": "node lib/loadBroker.js"
+  },
+  "devDependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.0",
+    "gulp-debug": "^2.1.2",
+    "gulp-inject": "^3.0.0",
+    "gulp-rimraf": "^0.2.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-tslint": "^4.3.1",
+    "gulp-typescript": "^2.10.0",
+    "tslint": "^3.2.2"
+  },
+  "dependencies": {
+    "async": "^1.5.2",
+    "body-parser": "^1.14.2",
+    "express": "^4.13.4",
+    "moment": "^2.11.1",
+    "mqtt": "^1.7.0",
+    "socket.io": "^1.4.4"
+  }
+}
