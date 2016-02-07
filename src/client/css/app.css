@@ -3,3 +3,164 @@ html, body {
     margin: 0;
     padding: 0;
 }
+
+h2, h3 {
+    text-align: center;
+    margin: 5px;
+}
+
+.application-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.application-container .page-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.view-main {
+    min-height: 0;
+    flex: 1;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+}
+
+.view-main-fakeRoomMonitor {
+    min-height: 0;
+    flex: 1;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.data-column {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.data-table {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.card {
+    border: 1px solid gray;
+    box-shadow: 1px 1px 3px #888;
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+}
+
+.card-image-column-job {
+    flex: 0 0 84px;
+    height: 54px;
+    width: 84px;
+}
+
+.card-image-column-printer {
+    flex: 0 0 68px;
+    height: 63px;
+    width: 68px;
+}
+
+.card-text-column {
+    flex: 1;
+}
+
+.card-text-column h4 {
+    margin: 0;
+}
+
+.card-chevron-column {
+    display: flex;
+    flex: 0 0 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-status-column {
+    display: flex;
+    flex: 0 0 36px;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+
+.clickable {
+    cursor: pointer;
+}
+
+.form-group {
+    display: block;
+    margin: 10px;
+}
+
+.form-group span {
+    display: inline-block;
+}
+
+.form-group .label {
+    width: 125px;
+    font-weight: bold;
+}
+
+.form-group output {
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 90px;
+}
+
+.form-group .range {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.form-button-group {
+    margin-left: 135px;
+    margin-top: 25px;
+}
+
+.form-button-group button{
+    margin-right: 25px;
+    cursor: pointer;
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+.offline {
+    font-weight: normal;
+}
+
+.printerError {
+    color: red;
+}
+
+.printing {
+    color: green;
+}
+
+.printed {
+    font-weight: normal;
+}

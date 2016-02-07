@@ -1,5 +1,5 @@
-///<reference path="../../typings/tsd.d.ts" />
-///<reference path="../../typings/appReferences.d.ts" />
+///<reference path="../typings/tsd.d.ts" />
+///<reference path="../typings/appReferences.d.ts" />
 
 // http://www.hacksparrow.com/difference-between-spawn-and-exec-of-node-js-child_process.html
 // http://krasimirtsonev.com/blog/article/Nodejs-managing-child-processes-starting-stopping-exec-spawn
@@ -12,13 +12,13 @@ import mqtt = require("mqtt");
 import serveStatic = require("serve-static");
 import express = require("express");
 import io = require("socket.io");
-import Middleware = require("./config/middleware/middleware");
-import Constants from "./config/constants/constants";
-import DeviceShutdownPayload = require("./topicPayloads/deviceShutdownPayload");
-import ProcessItem = require("./domain/processItem");
-import RoomMonitorStatusPayload = require("./topicPayloads/roomMonitorStatusPayload");
+import Middleware = require("./server/config/middleware/middleware");
+import Constants from "./server/config/constants/constants";
+import DeviceShutdownPayload = require("./server/topicPayloads/deviceShutdownPayload");
+import ProcessItem = require("./server/domain/processItem");
+import RoomMonitorStatusPayload = require("./server/topicPayloads/roomMonitorStatusPayload");
 import _ = require("underscore");
-import RegisterDevicePayload = require("./topicPayloads/registgerDevicePayload");
+import RegisterDevicePayload = require("./server/topicPayloads/registgerDevicePayload");
 
 let child_process: any = require("child_process");
 
@@ -35,19 +35,20 @@ try {
 
 try {
     let app: any = express();
+    let serverDirectory: string = __dirname + Constants.ServerStaticDirectory;
 
     app.set(Constants.Port, Constants.ServerPort);
-    app.use(serveStatic(__dirname + Constants.ServerStaticDirectory));
+    app.use(serveStatic(serverDirectory));
     app.use(Middleware.configuration);
 
     let server: any = app.listen(Constants.ServerPort, Constants.ServerIP, () => {
         console.log("Express server directory: %s, listening at http://%s:%s ",
-                    __dirname, server.address().address, server.address().port);
+                    serverDirectory, server.address().address, server.address().port);
 
         let socket: any = io.listen(server);
         let mqttClient: any = mqtt.connect(Constants.MqttConnectionString);
 
-        let devices: Array<ProcessItem>;
+        let devices: Array<ProcessItem> = [];
 
         mqttClient.on(Constants.EventConnect, () => {
             console.log("MQTT connected.");
@@ -70,7 +71,7 @@ try {
                     case Constants.TopicRoomRegister:
                         let devicePayload: RegisterDevicePayload = JSON.parse(payload);
                         let child: any =
-                            child_process.spawn("node", ["lib/server/cpbaLoadRoomMonitorFakeDevice.js", payload], {
+                            child_process.spawn("node", ["lib/cpbaLoadRoomMonitorFakeDevice.js", payload], {
                                 stdio: ["inherit"], encoding: "utf8"
                             });
                         child.stdout.pipe(process.stdout);

@@ -1,33 +1,36 @@
 <header>
-    <h2>Run Job</h2>
+    <h2>Fake Room Monitor</h2>
 </header>
 
-<main class="view-runJob">
+<main class="view-main-fakeRoomMonitor">
 
-    <div class="form-group">
-        <span class="label">Description</span>
-        <span>{{vm.job.description}}</span>
-    </div>
+    <section ng-show="vm.registerRoomMonitorFake">
+        <form name="registerForm">
+            <div class="form-group">
+                <span class="label">Device Id</span>
+                <input ng-model="vm.deviceId" type="text" width="100" maxlength="5" required autofocus/>
+            </div>
 
-    <div class="form-group">
-        <span class="label">Label Stock</span>
-        <span>{{vm.job.labelStock}}</span>
-    </div>
+            <div class="form-group">
+                <span class="label">Room Name</span>
+                <input ng-model="vm.name" type="text" width="100" maxlength="15" required/>
+            </div>
 
-    <div class="form-group">
-        <span class="label">Quantity</span>
-        <span>{{vm.job.quantity}}</span>
-    </div>
+            <div class="form-button-group">
+                <button ng-click="vm.register()">Register</button>
+            </div>
 
-    <div class="form-group">
-        <span class="label">Select Printer</span>
-        <select ng-model="vm.job.printerId">
-            <option ng-repeat="prn in vm.printers" value="{{prn.printerId}}">{{prn.name}}</option>
-        </select>
-    </div>
+            <div ng-init="vm.registerForm=registerForm"></div>
+        </form>
+    </section>
 
-    <div class="form-button-group">
-        <button ng-click="vm.runJob()">Run Job</button>
-        <button ng-click="vm.cancel()">Cancel</button>
-    </div>
+    <section ng-show="vm.registered">
+        <div class="form-group">
+            <span class="label">Temperature</span>
+            <input ng-model="vm.temperature" type="range" width="100" id="temperature" class="range"
+                   min="-10" max="100" step="5"/>
+            <output for="temperature">{{vm.temperature}}</output>
+            <button ng-click="vm.setTemperature()">Set Temperature</button>
+        </div>
+    </section>
 </main>

@@ -54,11 +54,9 @@ class RoomMonitorFakeDevice {
 
     // outbound topics
     private topicStatus: string = StringExtension.format(Constants.TopicRoomStatus, this.roomMonitor.deviceId);
-    private topicRegister: string = Constants.TopicRoomRegister;
 
     constructor(private roomMonitor: RoomMonitor) {
         this.setupMqttSubscriptions();
-        this.registerWithMqttBroker();
         this.setupStatusReporting();
     }
 
@@ -152,17 +150,6 @@ class RoomMonitorFakeDevice {
 
             // noinspection TypeScriptUnresolvedFunction
             this.client.publish(this.topicStatus, JSON.stringify(payload), {qos: 2});
-        } catch (e) {
-            this.logException(e);
-        }
-    }
-
-    private registerWithMqttBroker(): void {
-        try {
-            let payload: RegisterDevicePayload = new RegisterDevicePayload(this.roomMonitor.deviceId, this.roomMonitor.name);
-
-            // noinspection TypeScriptUnresolvedFunction
-            this.client.publish(this.topicRegister, JSON.stringify(payload), {qos: 2});
         } catch (e) {
             this.logException(e);
         }

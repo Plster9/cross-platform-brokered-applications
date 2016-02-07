@@ -5,7 +5,7 @@ export default class Constants {
     static ServerPort: number = 80;
     static EventMessage: string = "message";
     static EventConnect: string = "connect";
-    static ServerStaticDirectory: string = "/lib/client";
+    static ServerStaticDirectory: string = "/client";
     static Port: string = "port";
 
     // used by logger for listening to the mqtt broker

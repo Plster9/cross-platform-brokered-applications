@@ -6,8 +6,7 @@ namespace app {
 
     export class DashboardController {
 
-        jobs: Array<Job>;
-        printers: Array<Printer>;
+
 
         static $inject = ["$scope", "$state", "DataService"];
 
@@ -15,11 +14,13 @@ namespace app {
                     private $state: app.IStateProvider,
                     private dataService: IDataService) {
 
-            this.loadJobs();
-            this.loadPrinters();
         }
 
-        initializeSocket(): void {
+        fakeRoomMonitor(): void {
+            this.$state.go("fakeRoomMonitor");
+        }
+
+ /*       initializeSocket(): void {
             let socket: any = io.connect("http://172.16.38.131/");
             let p: Array<Printer> = this.printers;
             let j: Array<Job> = this.jobs;
@@ -48,42 +49,7 @@ namespace app {
                 }
             });
         }
-
-        loadJobs(): void {
-            this.dataService.getJobs()
-                .then((jobs: Array<Job>) => {
-                    this.jobs = jobs;
-                })
-                .catch((err: any) => {
-                    alert(err);
-                });
-        }
-
-        loadPrinters(): void {
-            this.dataService.getPrinters()
-                .then((printers: Array<Printer>) => {
-                    printers.forEach((p: Printer) => {
-                        p.status = "Online";
-                    });
-
-                    this.printers = printers;
-                    this.initializeSocket();
-                })
-                .catch((err: any) => {
-                    alert(err);
-                });
-        }
-
-        runJob(job: Job): void {
-            this.$state.go("runJob", {_id: job._id});
-        }
-
-        resetPrinter(printer: Printer): void {
-            this.dataService.resetPrinter(<string>printer.printerId)
-                .catch((err: any) => {
-                    alert(err);
-                });
-        }
+*/
 
     }
 
