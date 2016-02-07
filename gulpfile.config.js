@@ -6,8 +6,8 @@ var GulpConfig = (function () {
         this.tsOutputPath = './lib';
         this.allTypeScript = this.sourceApp + '**/*.ts';
         this.typings = './typings/';
-        this.www = this.sourceApp + './public/**/*';
-        this.wwwIgnore = '!' + this.sourceApp + './public/**/*.ts';
+        this.lib = this.sourceApp + './client/**/*';
+        this.libIgnore = '!' + this.sourceApp + './client/**/*.ts';
         this.libraryTypeScriptDefinitions = './typings/**/*.ts';
         this.appTypeScriptReferences = this.typings + 'appReferences.d.ts';
     }

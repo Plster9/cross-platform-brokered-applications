@@ -66,12 +66,11 @@ gulp.task('clean-lib', function (cb) {
 });
 
 gulp.task('deploy-public', function() {
-    return gulp.src([config.www, config.wwwIgnore])
-        .pipe(gulp.dest(config.tsOutputPath + '/public'));
+    return gulp.src([config.lib, config.libIgnore])
+        .pipe(gulp.dest(config.tsOutputPath + '/client'));
 });
-
 gulp.task('watch', function() {
-    gulp.watch([config.allTypeScript], ['ts-lint', 'compile-ts', 'gen-ts-refs']);
+    gulp.watch([config.allTypeScript], ['ts-lint', 'compile-ts', 'gen-ts-refs', 'deploy-public']);
 });
 
 gulp.task('default', ['ts-lint', 'compile-ts', 'gen-ts-refs', 'deploy-public']);
