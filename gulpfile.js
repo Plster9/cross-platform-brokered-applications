@@ -65,10 +65,14 @@ gulp.task('clean-lib', function (cb) {
     del(typeScriptGenFiles, cb);
 });
 
+/**
+ * Copies all non-js files to the deployment directory.
+ */
 gulp.task('deploy-public', function() {
     return gulp.src([config.lib, config.libIgnore])
         .pipe(gulp.dest(config.tsOutputPath + '/client'));
 });
+
 gulp.task('watch', function() {
     gulp.watch([config.allTypeScript], ['ts-lint', 'compile-ts', 'gen-ts-refs', 'deploy-public']);
 });

@@ -1,5 +1,8 @@
 "use strict";
 
+/**
+ * Performs token {0} {1}, etc. replacement on the templateString with the values..
+ */
 class StringExtension {
 
     public static format(templateString: string, ...values: any[]): string {

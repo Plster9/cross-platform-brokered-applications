@@ -4,15 +4,12 @@
 // http://www.hacksparrow.com/difference-between-spawn-and-exec-of-node-js-child_process.html
 // http://krasimirtsonev.com/blog/article/Nodejs-managing-child-processes-starting-stopping-exec-spawn
 
-
-import LightPayload = require("../topicPayloads/lightPayload");
 "use strict";
-
-process.title = "cpba-web-server";
 
 import mqtt = require("mqtt");
 import serveStatic = require("serve-static");
 import express = require("express");
+import {ChildProcess} from "child_process";
 import io = require("socket.io");
 import _ = require("underscore");
 import Middleware = require("../config/middleware/middleware");
@@ -21,7 +18,7 @@ import DeviceShutdownPayload = require("../topicPayloads/deviceShutdownPayload")
 import ProcessItem = require("../domain/processItem");
 import RoomMonitorStatusPayload = require("../topicPayloads/roomMonitorStatusPayload");
 import RegisterDevicePayload = require("../topicPayloads/registgerDevicePayload");
-import {ChildProcess} from "child_process";
+import LightPayload = require("../topicPayloads/lightPayload");
 
 class WebServer {
 
@@ -50,7 +47,7 @@ class WebServer {
                 this.mqttClient = mqtt.connect(Constants.MqttConnectionString);
 
                 this.mqttClient.on(Constants.EventConnect, () => {
-                        this.outputText("MQTT connected.");
+                        this.outputText("Web Server connected to MQTT");
 
                         // noinspection TypeScriptUnresolvedFunction
                         this.mqttClient.subscribe(Constants.TopicRoomStatus, {qos: 2});
@@ -117,8 +114,8 @@ class WebServer {
         let shutdownPayload: DeviceShutdownPayload = new DeviceShutdownPayload(JSON.parse(payload).deviceId);
         let item: ProcessItem = _.findWhere(this.devices, {deviceId: shutdownPayload.deviceId});
         if (item) {
-            item.process.kill();
             this.postSocketMessage(Constants.SocketDeviceShutdown, shutdownPayload);
+            item.process.kill();
         } else {
             this.outputText("Unable to shutdown device: " + shutdownPayload.deviceId);
         }
@@ -132,6 +129,8 @@ class WebServer {
         process.stdout.write(text + "\n");
     }
 }
+
+process.title = "cpba-Web Server";
 
 let webServer: WebServer = new WebServer();
 webServer.run();

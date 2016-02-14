@@ -46,13 +46,13 @@ class RoomMonitorFakeDevice {
     private motionState: MotionState = MotionState.None;
 
     // inbound topics
-    private topicSetTemperature: string = StringExtension.format(Constants.TopicRoomSetTemperature,
+    private topicSetTemperature: string = StringExtension.format(Constants.TopicRoomSetTemperatureFormat,
         this.roomMonitor.deviceId
     );
-    private topicSetMotion: string = StringExtension.format(Constants.TopicRoomSetMotion, this.roomMonitor.deviceId
+    private topicSetMotion: string = StringExtension.format(Constants.TopicRoomSetMotionFormat, this.roomMonitor.deviceId
     );
-    private topicSetSmoke: string = StringExtension.format(Constants.TopicRoomSetSmoke, this.roomMonitor.deviceId);
-    private topicSetLight: string = StringExtension.format(Constants.TopicRoomSetLight, this.roomMonitor.deviceId);
+    private topicSetSmoke: string = StringExtension.format(Constants.TopicRoomSetSmokeFormat, this.roomMonitor.deviceId);
+    private topicSetLight: string = StringExtension.format(Constants.TopicRoomSetLightFormat, this.roomMonitor.deviceId);
     private topicSwitchLight: string = StringExtension.format(Constants.TopicRoomSwitchLight, this.roomMonitor.deviceId
     );
 

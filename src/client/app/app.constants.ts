@@ -7,6 +7,7 @@ namespace app {
     angular
         .module("app")
         .constant("constants", {
+                FakeRoomMonitorUrl: "/#/fakeRoomMonitor",
                 ErrorToastTitle: "Error",
                 ToasterPopError: "error",
                 EndPoint: {
@@ -23,6 +24,11 @@ namespace app {
                     }, Device: {
                         SwitchLight: "roomMonitor/switchLight"
                     }
+                },
+                SocketMessage: {
+                    DeviceStatus: "deviceStatus",
+                    DeviceShutdown: "deviceShutdown",
+                    DeviceSwitchLight: "deviceSwitchLight"
                 }
             }
         );

@@ -9,11 +9,15 @@ import Constants from "../config/constants/constants";
 abstract class BusinessBase {
 
     protected publishTopic(topic: string, payload: Object): void {
-        let client: any = mqtt.connect(Constants.MqttConnectionString);
+        let mqttClient: any = mqtt.connect(Constants.MqttConnectionString);
 
-        // noinspection TypeScriptUnresolvedFunction
-        client.publish(topic, JSON.stringify(payload), {qos: 2});
-        client.end();
+        mqttClient.on(Constants.EventConnect, () => {
+
+            // noinspection TypeScriptUnresolvedFunction
+            mqttClient.publish(topic, JSON.stringify(payload), {qos: 2});
+            mqttClient.end();
+            }
+        );
     }
 }
 

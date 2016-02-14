@@ -44,14 +44,13 @@ namespace app {
 
         launchFakeRoomMonitors(): void {
             this.fakeRoomMonitorsLaunched = true;
-            this.$window.open("/#/fakeRoomMonitor", "_blank");
+            this.$window.open(this.constants.FakeRoomMonitorUrl, "_blank");
         }
 
         initializeSocket(): void {
             this.socket = io.connect(this.constants.EndPoint.Server.SocketIoEndPoint);
 
-            this.socket.on(
-                "deviceStatus", (data: app.RoomMonitor) => {
+            this.socket.on(this.constants.SocketMessage.DeviceStatus, (data: app.RoomMonitor) => {
                     let rm: app.RoomMonitor = _.find(this.roomMonitors,
                         (roomMonitor: app.RoomMonitor) => { return roomMonitor.deviceId === data.deviceId; }
                     );
@@ -70,7 +69,7 @@ namespace app {
                 }
             );
 
-            this.socket.on("deviceShutdown", (data: app.DeviceShutdown) => {
+            this.socket.on(this.constants.SocketMessage.DeviceShutdown, (data: app.DeviceShutdown) => {
                     let index: number = _.findIndex(this.roomMonitors,
                         (roomMonitor: app.RoomMonitor) => { return roomMonitor.deviceId === data.deviceId; }
                     );

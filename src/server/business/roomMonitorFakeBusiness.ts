@@ -58,7 +58,7 @@ class RoomMonitorFakeBusiness extends BusinessBase {
         return new Promise((resolve: any, reject: any): void => {
                 try {
                     let payload: TemperaturePayload = new TemperaturePayload(temperature.deviceId, temperature.temperature);
-                    super.publishTopic(StringExtension.format(Constants.TopicRoomSetTemperature, temperature.deviceId), payload);
+                    super.publishTopic(StringExtension.format(Constants.TopicRoomSetTemperatureFormat, temperature.deviceId), payload);
                     resolve(`${temperature.deviceId} set temperature requested`);
                 } catch (e) {
                     reject(e);
@@ -71,7 +71,7 @@ class RoomMonitorFakeBusiness extends BusinessBase {
         return new Promise((resolve: any, reject: any): void => {
                 try {
                     let payload: SmokePayload = new SmokePayload(smoke.deviceId, smoke.state);
-                    super.publishTopic(StringExtension.format(Constants.TopicRoomSetSmoke, smoke.deviceId), payload);
+                    super.publishTopic(StringExtension.format(Constants.TopicRoomSetSmokeFormat, smoke.deviceId), payload);
                     resolve(`${smoke.deviceId} set smoke requested`);
                 } catch (e) {
                     reject(e);
@@ -84,7 +84,7 @@ class RoomMonitorFakeBusiness extends BusinessBase {
         return new Promise((resolve: any, reject: any): void => {
                 try {
                     let payload: LightPayload = new LightPayload(light.deviceId, light.state);
-                    super.publishTopic(StringExtension.format(Constants.TopicRoomSetLight, light.deviceId), payload);
+                    super.publishTopic(StringExtension.format(Constants.TopicRoomSetLightFormat, light.deviceId), payload);
                     resolve(`${light.deviceId} set light requested`);
                 } catch (e) {
                     reject(e);
@@ -97,7 +97,7 @@ class RoomMonitorFakeBusiness extends BusinessBase {
         return new Promise((resolve: any, reject: any): void => {
                 try {
                     let payload: MotionPayload = new MotionPayload(motion.deviceId, motion.state);
-                    super.publishTopic(StringExtension.format(Constants.TopicRoomSetMotion, motion.deviceId), payload);
+                    super.publishTopic(StringExtension.format(Constants.TopicRoomSetMotionFormat, motion.deviceId), payload);
                     resolve(`${motion.deviceId} set motion requested`);
                 } catch (e) {
                     reject(e);

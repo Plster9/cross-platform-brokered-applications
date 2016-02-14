@@ -53,14 +53,12 @@ namespace app {
         initializeSocket(): void {
             this.socket = io.connect(this.constants.EndPoint.Server.SocketIoEndPoint);
 
-            this.socket.on(
-                "deviceSwitchLight", (data: app.Light) => {
+            this.socket.on(this.constants.SocketMessage.DeviceSwitchLight, (data: app.Light) => {
                     let rm: app.RoomMonitor = _.find(this.roomMonitors,
                         (roomMonitor: app.RoomMonitor) => { return roomMonitor.deviceId === data.deviceId; }
                     );
                     if (rm) {
                         this.$scope.$apply(() => {
-                                console.log("Setting Light for: " + rm.deviceId);
                                 rm.dateTime = data.dateTime;
                                 rm.lightState = data.lightState;
                             }

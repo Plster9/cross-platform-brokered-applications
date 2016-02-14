@@ -15,7 +15,7 @@ class RoomMonitorBusiness extends BusinessBase {
                 try {
                     let payload: LightPayload = new LightPayload(light.deviceId, light.state);
                     super.publishTopic(Constants.TopicRoomSwitchLight, payload);
-                    resolve("Switch light requested");
+                    resolve(`${light.deviceId} switch light requested`);
                 } catch (e) {
                     reject(e);
                 }

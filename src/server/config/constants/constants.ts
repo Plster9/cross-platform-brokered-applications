@@ -16,18 +16,18 @@ export default class Constants {
     static SocketDeviceSwitchLight: string = "deviceSwitchLight";
 
     // used by logger for listening to the mqtt broker
-    static TopicAllTopics: string = "/#";
+    static TopicAllTopics: string = "cpba/#";
 
     // MQTT Topics ----------------------------------------------------------------
-    static TopicRoomSetTemperature: string = "fakeRoom/{0}/setTemperature";
-    static TopicRoomSetMotion: string = "fakeRoom/{0}/setMotion";
-    static TopicRoomSetSmoke: string = "fakeRoom/{0}/setSmoke";
-    static TopicRoomSetLight: string = "fakeRoom/{0}/setLight";
+    static TopicRoomSetTemperatureFormat: string = "cpba/fakeRoom/{0}/setTemperature";
+    static TopicRoomSetMotionFormat: string = "cpba/fakeRoom/{0}/setMotion";
+    static TopicRoomSetSmokeFormat: string = "cpba/fakeRoom/{0}/setSmoke";
+    static TopicRoomSetLightFormat: string = "cpba/fakeRoom/{0}/setLight";
 
-    static TopicRoomStatus: string = "room/status";
-    static TopicRoomRegister: string = "room/register";
-    static TopicRoomShutdown: string = "room/shutdown";
-    static TopicRoomSwitchLight: string = "room/switchLight";
+    static TopicRoomStatus: string = "cpba/room/status";
+    static TopicRoomRegister: string = "cpba/room/register";
+    static TopicRoomShutdown: string = "cpba/room/shutdown";
+    static TopicRoomSwitchLight: string = "cpba/room/switchLight";
 }
 
 Object.seal(Constants);
