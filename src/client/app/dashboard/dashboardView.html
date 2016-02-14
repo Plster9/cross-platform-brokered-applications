@@ -2,6 +2,49 @@
     <h2>CPBA Dashboard</h2>
 </header>
 
-<main>
-    <button ng-click="vm.fakeRoomMonitor()">Fake Room Monitor</button>
+<main class="view-main-column">
+
+    <section ng-hide="vm.fakeRoomMonitorsLaunched">
+        <button ng-click="vm.launchFakeRoomMonitors()">Launch Fake Room Monitors</button>
+    </section>
+
+    <section class="room-monitor" ng-repeat="monitor in vm.roomMonitors">
+        <div class="form-group">
+            <span class="label">Device Id</span>
+            <span class="bold">{{ monitor.deviceId }}</span>
+        </div>
+
+        <div class="form-group">
+            <span class="label">Room Name</span>
+            <span class="bold">{{ monitor.name }}</span>
+        </div>
+
+        <div class="form-group">
+            <span class="label">Last Message</span>
+            <span class="bold">{{ monitor.dateTime }}</span>
+        </div>
+
+        <div class="form-group">
+            <span class="label">Temperature</span>
+            <input ng-model="monitor.temperature" type="range" width="100" class="range" min="-20" max="120" step="1"
+                   disabled/>
+            <output>{{ monitor.temperature }}</output>
+        </div>
+
+        <div class="form-group">
+            <span class="label">Detect Motion</span>
+            <input ng-model="monitor.motionState" type="checkbox" ng-true-value="1" ng-false-value="0" disabled/>
+        </div>
+
+        <div class="form-group">
+            <span class="label">Detect Smoke</span>
+            <input ng-model="monitor.smokeState" type="checkbox" ng-true-value="1" ng-false-value="0" disabled/>
+        </div>
+
+        <div class="form-group">
+            <span class="label">Light Off/On</span>
+            <input ng-model="monitor.lightState" type="checkbox" ng-true-value="1" ng-false-value="0"
+                   ng-click="vm.switchLight(monitor)"/>
+        </div>
+    </section>
 </main>

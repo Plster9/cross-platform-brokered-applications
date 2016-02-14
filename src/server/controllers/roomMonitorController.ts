@@ -6,23 +6,26 @@ import RoomMonitorBusiness = require("../business/roomMonitorBusiness");
 
 class RoomMonitorController {
 
-    setLight(req: express.Request, res: express.Response): void {
+    switchLight(req: express.Request, res: express.Response): void {
         try {
             let b: RoomMonitorBusiness = new RoomMonitorBusiness();
 
             // noinspection TypeScriptUnresolvedVariable
             let p: Light = req.body.light;
-            b.setLight(p)
+            b.switchLight(p)
                 .then((response: string) => {
-                    res.send(response);
-                })
+                        res.send(response);
+                    }
+                )
                 .catch((e: any) => {
-                    res.status(400).send(e);
-                });
+                        res.status(400).send(e);
+                    }
+                );
         } catch (e) {
             res.status(500).send(e);
         }
     }
 }
 
+Object.seal(RoomMonitorController);
 export = RoomMonitorController;

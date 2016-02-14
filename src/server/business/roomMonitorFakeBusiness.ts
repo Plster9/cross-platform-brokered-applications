@@ -29,75 +29,81 @@ class RoomMonitorFakeBusiness extends BusinessBase {
 
     create(roomMonitor: RoomMonitor): Promise<string> {
         return new Promise((resolve: any, reject: any): void => {
-            try {
-                let payload: RegisterDevicePayload = new RegisterDevicePayload(roomMonitor.deviceId, roomMonitor.name);
-                let topic: string = StringExtension.format(Constants.TopicRoomRegister, roomMonitor);
-                super.publishTopic(topic, payload);
-                resolve("registration requested");
-            } catch (e) {
-                reject(e);
+                try {
+                    let payload: RegisterDevicePayload = new RegisterDevicePayload(roomMonitor.deviceId, roomMonitor.name);
+                    let topic: string = StringExtension.format(Constants.TopicRoomRegister, roomMonitor);
+                    super.publishTopic(topic, payload);
+                    resolve(`${roomMonitor.deviceId} registration requested`);
+                } catch (e) {
+                    reject(e);
+                }
             }
-        });
+        );
     }
 
     shutdown(deviceShutdown: DeviceShutdown): Promise<string> {
         return new Promise((resolve: any, reject: any): void => {
-            try {
-                let payload: DeviceShutdownPayload = new DeviceShutdownPayload(deviceShutdown.deviceId);
-                super.publishTopic(Constants.TopicRoomShutdown, payload);
-                resolve("shutdown requested");
-            } catch (e) {
-                reject(e);
+                try {
+                    let payload: DeviceShutdownPayload = new DeviceShutdownPayload(deviceShutdown.deviceId);
+                    super.publishTopic(Constants.TopicRoomShutdown, payload);
+                    resolve(`${deviceShutdown.deviceId} shutdown requested`);
+                } catch (e) {
+                    reject(e);
+                }
             }
-        });
+        );
     }
 
     setTemperature(temperature: Temperature): Promise<string> {
         return new Promise((resolve: any, reject: any): void => {
-            try {
-                let payload: TemperaturePayload = new TemperaturePayload(temperature.deviceId, temperature.temperature);
-                super.publishTopic(Constants.TopicRoomFakeSetTemperature, payload);
-                resolve("set temperature requested");
-            } catch (e) {
-                reject(e);
+                try {
+                    let payload: TemperaturePayload = new TemperaturePayload(temperature.deviceId, temperature.temperature);
+                    super.publishTopic(StringExtension.format(Constants.TopicRoomSetTemperature, temperature.deviceId), payload);
+                    resolve(`${temperature.deviceId} set temperature requested`);
+                } catch (e) {
+                    reject(e);
+                }
             }
-        });
+        );
     }
 
     setSmoke(smoke: Smoke): Promise<string> {
         return new Promise((resolve: any, reject: any): void => {
-            try {
-                let payload: SmokePayload = new SmokePayload(smoke.deviceId, smoke.state);
-                super.publishTopic(Constants.TopicRoomFakeSetSmoke, payload);
-                resolve("set smoke requested");
-            } catch (e) {
-                reject(e);
+                try {
+                    let payload: SmokePayload = new SmokePayload(smoke.deviceId, smoke.state);
+                    super.publishTopic(StringExtension.format(Constants.TopicRoomSetSmoke, smoke.deviceId), payload);
+                    resolve(`${smoke.deviceId} set smoke requested`);
+                } catch (e) {
+                    reject(e);
+                }
             }
-        });
+        );
     }
 
     setLight(light: Light): Promise<string> {
         return new Promise((resolve: any, reject: any): void => {
-            try {
-                let payload: LightPayload = new LightPayload(light.deviceId, light.state);
-                super.publishTopic(Constants.TopicRoomFakeSetLight, payload);
-                resolve("set light requested");
-            } catch (e) {
-                reject(e);
+                try {
+                    let payload: LightPayload = new LightPayload(light.deviceId, light.state);
+                    super.publishTopic(StringExtension.format(Constants.TopicRoomSetLight, light.deviceId), payload);
+                    resolve(`${light.deviceId} set light requested`);
+                } catch (e) {
+                    reject(e);
+                }
             }
-        });
+        );
     }
 
     setMotion(motion: Motion): Promise<string> {
         return new Promise((resolve: any, reject: any): void => {
-            try {
-                let payload: MotionPayload = new MotionPayload(motion.deviceId, motion.state);
-                super.publishTopic(Constants.TopicRoomFakeSetMotion, payload);
-                resolve("set motion requested");
-            } catch (e) {
-                reject(e);
+                try {
+                    let payload: MotionPayload = new MotionPayload(motion.deviceId, motion.state);
+                    super.publishTopic(StringExtension.format(Constants.TopicRoomSetMotion, motion.deviceId), payload);
+                    resolve(`${motion.deviceId} set motion requested`);
+                } catch (e) {
+                    reject(e);
+                }
             }
-        });
+        );
     }
 }
 

@@ -1,6 +1,7 @@
 ///<reference path="../../../typings/tsd.d.ts" />
 ///<reference path="../../../typings/appReferences.d.ts" />
 
+import DeviceShutdownPayload = require("../topicPayloads/deviceShutdownPayload");
 "use strict";
 
 import mqtt = require("mqtt");
@@ -11,7 +12,6 @@ import RoomMonitor = require("../domain/roomMonitor");
 import MotionPayload = require("../topicPayloads/motionPayload");
 import SmokePayload = require("../topicPayloads/smokePayload");
 import LightPayload = require("../topicPayloads/lightPayload");
-import RegisterDevicePayload = require("../topicPayloads/registgerDevicePayload");
 import TemperaturePayload = require("../topicPayloads/temperaturePayload");
 import MotionState = require("../domain/motionState");
 import SmokeState = require("../domain/smokeState");
@@ -37,6 +37,7 @@ class RoomMonitorFakeDevice {
 
     // members
     private client: any;
+    private interval: any;
 
     // room monitor state
     private temperature: number = 65;
@@ -45,61 +46,94 @@ class RoomMonitorFakeDevice {
     private motionState: MotionState = MotionState.None;
 
     // inbound topics
-    private topicSetTemperature: string = StringExtension.format(Constants.TopicRoomFakeSetTemperature,
-                                                                 this.roomMonitor.deviceId);
-    private topicSetMotion: string = StringExtension.format(Constants.TopicRoomFakeSetMotion,
-                                                            this.roomMonitor.deviceId);
-    private topicSetSmoke: string = StringExtension.format(Constants.TopicRoomFakeSetSmoke, this.roomMonitor.deviceId);
-    private topicSetLight: string = StringExtension.format(Constants.TopicRoomFakeSetLight, this.roomMonitor.deviceId);
+    private topicSetTemperature: string = StringExtension.format(Constants.TopicRoomSetTemperature,
+        this.roomMonitor.deviceId
+    );
+    private topicSetMotion: string = StringExtension.format(Constants.TopicRoomSetMotion, this.roomMonitor.deviceId
+    );
+    private topicSetSmoke: string = StringExtension.format(Constants.TopicRoomSetSmoke, this.roomMonitor.deviceId);
+    private topicSetLight: string = StringExtension.format(Constants.TopicRoomSetLight, this.roomMonitor.deviceId);
+    private topicSwitchLight: string = StringExtension.format(Constants.TopicRoomSwitchLight, this.roomMonitor.deviceId
+    );
 
     // outbound topics
     private topicStatus: string = StringExtension.format(Constants.TopicRoomStatus, this.roomMonitor.deviceId);
 
     constructor(private roomMonitor: RoomMonitor) {
+    }
+
+    run(): void {
         this.setupMqttSubscriptions();
         this.setupStatusReporting();
     }
 
     private setupStatusReporting(): void {
-        setInterval(() => {
-            this.sendStatus();
-        }, 5000);
+        this.interval = setInterval(() => {
+                this.sendStatus();
+            }, 5000
+        );
     }
 
     private setupMqttSubscriptions(): void {
         this.client = mqtt.connect(Constants.MqttConnectionString);
         this.client.on(Constants.EventConnect, () => {
-            // noinspection TypeScriptUnresolvedFunction
-            this.client.subscribe(this.topicSetTemperature, {qos: 2});
+                // noinspection TypeScriptUnresolvedFunction
+                this.client.subscribe(this.topicSetTemperature, {qos: 2});
 
-            // noinspection TypeScriptUnresolvedFunction
-            this.client.subscribe(this.topicSetMotion, {qos: 2});
+                // noinspection TypeScriptUnresolvedFunction
+                this.client.subscribe(this.topicSetMotion, {qos: 2});
 
-            // noinspection TypeScriptUnresolvedFunction
-            this.client.subscribe(this.topicSetSmoke, {qos: 2});
+                // noinspection TypeScriptUnresolvedFunction
+                this.client.subscribe(this.topicSetSmoke, {qos: 2});
 
-            // noinspection TypeScriptUnresolvedFunction
-            this.client.subscribe(this.topicSetLight, {qos: 2});
-        });
+                // noinspection TypeScriptUnresolvedFunction
+                this.client.subscribe(this.topicSetLight, {qos: 2});
 
-        this.client.on(Constants.EventMessage, (topic: string, payloadJson: string): void => {
-            switch (topic) {
-                case this.topicSetTemperature:
-                    this.setTemperature(payloadJson);
-                    break;
-                case this.topicSetMotion:
-                    this.setMotion(payloadJson);
-                    break;
-                case this.topicSetSmoke:
-                    this.setSmoke(payloadJson);
-                    break;
-                case this.topicSetLight:
-                    this.setLight(payloadJson);
-                    break;
-                default:
+                // noinspection TypeScriptUnresolvedFunction
+                this.client.subscribe(this.topicSwitchLight, {qos: 2});
+
+                // noinspection TypeScriptUnresolvedFunction
+                this.client.subscribe(Constants.TopicRoomShutdown, {qos: 2});
+
             }
+        );
 
-        });
+        this.client.on(Constants.EventMessage, (topic: string, payload: string): void => {
+                switch (topic) {
+                    case this.topicSetTemperature:
+                        this.setTemperature(payload);
+                        break;
+                    case this.topicSetMotion:
+                        this.setMotion(payload);
+                        break;
+                    case this.topicSetSmoke:
+                        this.setSmoke(payload);
+                        break;
+                    case this.topicSetLight:
+                        this.setLight(payload);
+                        break;
+                    case this.topicSwitchLight:
+                        this.switchLight(payload);
+                        break;
+                    case Constants.TopicRoomShutdown:
+                        this.shutdown(payload);
+                        break;
+                    default:
+                }
+            }
+        );
+    }
+
+    private shutdown(payloadJson: string): void {
+        try {
+            let payload: DeviceShutdownPayload = JSON.parse(payloadJson);
+            if (payload.deviceId === this.roomMonitor.deviceId) {
+                clearInterval(this.interval);
+                this.client.end();
+            }
+        } catch (e) {
+            this.logException(e);
+        }
     }
 
     private setTemperature(payloadJson: string): void {
@@ -142,11 +176,22 @@ class RoomMonitorFakeDevice {
         }
     }
 
+    private switchLight(payloadJson: string): void {
+        try {
+            let payload: LightPayload = JSON.parse(payloadJson);
+            if (payload.deviceId === this.roomMonitor.deviceId) {
+                this.lightState = payload.lightState;
+            }
+        } catch (e) {
+            this.logException(e);
+        }
+    }
+
     private sendStatus(): void {
         try {
-            let payload: RoomMonitorStatusPayload =
-                new RoomMonitorStatusPayload(this.roomMonitor.deviceId, this.temperature, this.lightState,
-                    this.motionState, this.smokeState);
+            let payload: RoomMonitorStatusPayload = new RoomMonitorStatusPayload(this.roomMonitor.deviceId, this.roomMonitor.name, this.temperature,
+                this.lightState, this.motionState, this.smokeState
+            );
 
             // noinspection TypeScriptUnresolvedFunction
             this.client.publish(this.topicStatus, JSON.stringify(payload), {qos: 2});
@@ -161,4 +206,9 @@ class RoomMonitorFakeDevice {
     }
 }
 
-export = RoomMonitorFakeDevice;
+let roomMonitor: RoomMonitor = JSON.parse(process.argv[2]);
+
+process.title = `cpba-Room Monitor: ${roomMonitor.name}`;
+
+let device: RoomMonitorFakeDevice = new RoomMonitorFakeDevice(roomMonitor);
+device.run();

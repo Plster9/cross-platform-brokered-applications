@@ -6,51 +6,83 @@ namespace app {
 
     export class DashboardController {
 
+        socket: any;
+        fakeRoomMonitorsLaunched: boolean = false;
+        roomMonitors: Array<app.RoomMonitor>;
 
-
-        static $inject = ["$scope", "$state", "DataService"];
+        static $inject = ["$scope", "$window", "DataService", "FormService", "constants"];
 
         constructor(private $scope: any,
-                    private $state: app.IStateProvider,
-                    private dataService: IDataService) {
+                    private $window: ng.IWindowService,
+                    private dataService: IDataService,
+                    private formService: IFormService,
+                    private constants: any) {
 
+            this.roomMonitors = [];
+            $window.onbeforeunload = this.cleanUp;
+            this.initializeSocket();
         }
 
-        fakeRoomMonitor(): void {
-            this.$state.go("fakeRoomMonitor");
+        switchLight(monitor: app.RoomMonitor): void {
+            this.dataService.switchLight(monitor.deviceId, monitor.lightState)
+                .then((result: any) => {
+                        this.formService.showToast("Light", result.data);
+                    }
+                )
+                .catch((err: any) => {
+                        this.formService.showErrorToast(err.toString());
+                    }
+                );
         }
 
- /*       initializeSocket(): void {
-            let socket: any = io.connect("http://172.16.38.131/");
-            let p: Array<Printer> = this.printers;
-            let j: Array<Job> = this.jobs;
+        cleanUp(): string {
+            if (this.socket) {
+                this.socket.close();
+            }
+            return null;
+        }
 
-            socket.on("printerStatus", (data: any) => {
-                let printer: Printer = _.find(p, (prn: Printer) => {
-                    return prn.printerId === data.printerId;
-                });
+        launchFakeRoomMonitors(): void {
+            this.fakeRoomMonitorsLaunched = true;
+            this.$window.open("/#/fakeRoomMonitor", "_blank");
+        }
 
-                if (printer) {
-                    this.$scope.apply(() => {
-                        printer.status = data.status;
-                    });
+        initializeSocket(): void {
+            this.socket = io.connect(this.constants.EndPoint.Server.SocketIoEndPoint);
+
+            this.socket.on(
+                "deviceStatus", (data: app.RoomMonitor) => {
+                    let rm: app.RoomMonitor = _.find(this.roomMonitors,
+                        (roomMonitor: app.RoomMonitor) => { return roomMonitor.deviceId === data.deviceId; }
+                    );
+                    this.$scope.$apply(() => {
+                            if (rm) {
+                                rm.dateTime = data.dateTime;
+                                rm.lightState = data.lightState;
+                                rm.motionState = data.motionState;
+                                rm.smokeState = data.smokeState;
+                                rm.temperature = data.temperature;
+                            } else {
+                                this.roomMonitors.push(data);
+                            }
+                        }
+                    );
                 }
-            });
+            );
 
-            socket.on("jobCompleted", (data: any) => {
-                let job: Job = _.find(j, (jb: Job) => {
-                    return jb.jobId === data;
-                });
-
-                if (job) {
-                    this.$scope.apply(() => {
-                        job.status = "Printed";
-                    });
+            this.socket.on("deviceShutdown", (data: app.DeviceShutdown) => {
+                    let index: number = _.findIndex(this.roomMonitors,
+                        (roomMonitor: app.RoomMonitor) => { return roomMonitor.deviceId === data.deviceId; }
+                    );
+                    this.$scope.$apply(() => {
+                            if (index > -1) {
+                                this.roomMonitors.splice(index, 1);
+                            }
+                        }
+                    );
                 }
-            });
+            );
         }
-*/
-
     }
 
     angular.module("app")

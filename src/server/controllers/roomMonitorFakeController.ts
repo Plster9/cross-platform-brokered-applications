@@ -16,14 +16,16 @@ class RoomMonitorFakeController {
             let b: RoomMonitorFakeBusiness = new RoomMonitorFakeBusiness();
 
             // noinspection TypeScriptUnresolvedVariable
-            let p: RoomMonitor = req.body.roomMonitor;
+            let p: RoomMonitor = <RoomMonitor>req.body.roomMonitor;
             b.create(p)
                 .then((response: string) => {
-                    res.send(response);
-                })
+                        res.send(response);
+                    }
+                )
                 .catch((e: any) => {
-                    res.status(400).send(e);
-                });
+                        res.status(400).send(e);
+                    }
+                );
         } catch (e) {
             res.status(500).send(e);
         }
@@ -34,14 +36,16 @@ class RoomMonitorFakeController {
             let b: RoomMonitorFakeBusiness = new RoomMonitorFakeBusiness();
 
             // noinspection TypeScriptUnresolvedVariable
-            let p: DeviceShutdown = req.body.deviceShutdown;
+            let p: DeviceShutdown = <DeviceShutdown>req.body.deviceShutdown;
             b.shutdown(p)
                 .then((response: string) => {
-                    res.send(response);
-                })
+                        res.send(response);
+                    }
+                )
                 .catch((e: any) => {
-                    res.status(400).send(e);
-                });
+                        res.status(400).send(e);
+                    }
+                );
         } catch (e) {
             res.status(500).send(e);
         }
@@ -51,14 +55,17 @@ class RoomMonitorFakeController {
         try {
             let b: RoomMonitorFakeBusiness = new RoomMonitorFakeBusiness();
 
-            let p: Temperature = req.body.temperature;
+            // noinspection TypeScriptUnresolvedVariable
+            let p: Temperature = <Temperature>req.body.temperature;
             b.setTemperature(p)
                 .then((response: string) => {
-                    res.send(response);
-                })
+                        res.send(response);
+                    }
+                )
                 .catch((e: any) => {
-                    res.status(400).send(e);
-                });
+                        res.status(400).send(e);
+                    }
+                );
         } catch (e) {
             res.status(500).send(e);
         }
@@ -69,14 +76,16 @@ class RoomMonitorFakeController {
             let b: RoomMonitorFakeBusiness = new RoomMonitorFakeBusiness();
 
             // noinspection TypeScriptUnresolvedVariable
-            let p: Smoke = req.body.smoke;
+            let p: Smoke = <Smoke>req.body.smoke;
             b.setSmoke(p)
                 .then((response: string) => {
-                    res.send(response);
-                })
+                        res.send(response);
+                    }
+                )
                 .catch((e: any) => {
-                    res.status(400).send(e);
-                });
+                        res.status(400).send(e);
+                    }
+                );
         } catch (e) {
             res.status(500).send(e);
         }
@@ -87,14 +96,16 @@ class RoomMonitorFakeController {
             let b: RoomMonitorFakeBusiness = new RoomMonitorFakeBusiness();
 
             // noinspection TypeScriptUnresolvedVariable
-            let p: Light = req.body.light;
+            let p: Light = <Light>req.body.light;
             b.setLight(p)
                 .then((response: string) => {
-                    res.send(response);
-                })
+                        res.send(response);
+                    }
+                )
                 .catch((e: any) => {
-                    res.status(400).send(e);
-                });
+                        res.status(400).send(e);
+                    }
+                );
         } catch (e) {
             res.status(500).send(e);
         }
@@ -105,18 +116,21 @@ class RoomMonitorFakeController {
             let b: RoomMonitorFakeBusiness = new RoomMonitorFakeBusiness();
 
             // noinspection TypeScriptUnresolvedVariable
-            let p: Motion = req.body.motion;
+            let p: Motion = <Motion>req.body.motion;
             b.setMotion(p)
                 .then((response: string) => {
-                    res.send(response);
-                })
+                        res.send(response);
+                    }
+                )
                 .catch((e: any) => {
-                    res.status(400).send(e);
-                });
+                        res.status(400).send(e);
+                    }
+                );
         } catch (e) {
             res.status(500).send(e);
         }
     }
 }
 
+Object.seal(RoomMonitorFakeController);
 export = RoomMonitorFakeController;

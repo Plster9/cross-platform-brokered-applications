@@ -1,35 +1,33 @@
+"use strict";
+
 export default class Constants {
 
-    static MqttConnectionString: string = "mqtt://localhost";
-    static ServerIP: string = "172.16.38.134";
+    static ServerIP: string = "192.168.1.41";  // DEVELOPERS CHANGE ME TO MATCH YOUR SYSTEM
     static ServerPort: number = 80;
+    static MqttConnectionString: string = "mqtt://localhost";
+    static ServerStaticDirectory: string = "/client";
     static EventMessage: string = "message";
     static EventConnect: string = "connect";
-    static ServerStaticDirectory: string = "/client";
     static Port: string = "port";
+
+    // SOCKET Messages
+    static SocketDeviceStatus: string = "deviceStatus";
+    static SocketDeviceShutdown: string = "deviceShutdown";
+    static SocketDeviceSwitchLight: string = "deviceSwitchLight";
 
     // used by logger for listening to the mqtt broker
     static TopicAllTopics: string = "/#";
 
-    // SOCKET Messages
-    static SocketStatus: string = "socketStatus";
-    static SocketDeviceShutdown: string = "socketDeviceShutdown";
+    // MQTT Topics ----------------------------------------------------------------
+    static TopicRoomSetTemperature: string = "fakeRoom/{0}/setTemperature";
+    static TopicRoomSetMotion: string = "fakeRoom/{0}/setMotion";
+    static TopicRoomSetSmoke: string = "fakeRoom/{0}/setSmoke";
+    static TopicRoomSetLight: string = "fakeRoom/{0}/setLight";
 
-    // ROOM Topics ----------------------------------------------------------------
-
-    // ROOM inbound fake monitoring device topics
-    static TopicRoomFakeSetTemperature: string = "roomMock/{0}/setTemperature";
-    static TopicRoomFakeSetMotion: string = "roomMock/{0}/setMotion";
-    static TopicRoomFakeSetSmoke: string = "roomMock/{0}/setSmoke";
-    static TopicRoomFakeSetLight: string = "roomMock/{0}/setLight";
-
-    // ROOM inbound real monitoring device topics
-    static TopicRoomSetLight: string = "room/{0}/setLight";
-
-    // ROOM outbound real and fake monitoring device topics
     static TopicRoomStatus: string = "room/status";
     static TopicRoomRegister: string = "room/register";
     static TopicRoomShutdown: string = "room/shutdown";
-
+    static TopicRoomSwitchLight: string = "room/switchLight";
 }
+
 Object.seal(Constants);

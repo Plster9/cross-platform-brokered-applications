@@ -22,7 +22,7 @@ namespace app {
         go(to: string, params?: {}, options?: angular.ui.IStateOptions): ng.IPromise<any>;
     }
 
-    export var app: ng.IModule = angular.module("app", ["ui.router"])
+    export var app: ng.IModule = angular.module("app", ["ui.router", "toaster", "ngAnimate"])
         .config(config);
 
     config.$inject = ["$stateProvider", "$urlRouterProvider"];

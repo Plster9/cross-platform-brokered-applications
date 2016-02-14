@@ -1,14 +1,14 @@
-import LightState = require("../domain/lightState");
 "use strict";
 
 import PayloadBase = require("./payloadBase");
-import MotionDetectedState = require("../domain/motionState");
-import SmokeDetectedState = require("../domain/smokeState");
+import MotionState = require("../domain/motionState");
+import SmokeState = require("../domain/smokeState");
+import LightState = require("../domain/lightState");
 
 class RoomMonitorStatusPayload extends PayloadBase {
 
-    constructor(deviceId: string, public temperature: number, public lightState: LightState,
-                public motionState: MotionDetectedState, public smokeState: SmokeDetectedState) {
+    constructor(deviceId: string, public name: string, public temperature: number, public lightState: LightState,
+                public motionState: MotionState, public smokeState: SmokeState) {
         super(deviceId);
     }
 

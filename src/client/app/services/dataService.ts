@@ -4,57 +4,27 @@
 namespace app {
     "use strict";
 
-    const baseUrl: string = "http://172.16.38.134/";
-
     export interface IDataService {
-        registerRoomMonitorFake(deviceId: string, name: string): ng.IPromise<string>;
+        switchLight(deviceId: string, lightState: LightState): ng.IPromise<string>;
     }
 
     class DataService implements IDataService {
 
-        static $inject = ["$http", "$q"];
-        constructor(private $http: ng.IHttpService, private $q: ng.IQService) {
+        static $inject = ["NetworkService", "constants"];
+
+        constructor(private networkService: INetworkService, private constants: any) {
         }
 
-        setTemperature(deviceId: string, temperature: number) : ng.IPromise<string> {
+
+        switchLight(deviceId: string, lightState: LightState): ng.IPromise<string> {
             let data: Object = {
-                roomMonitor: {
-                    deviceId: deviceId,
-                    name: name
+                light: {
+                    deviceId: deviceId, state: lightState
                 }
             };
-
-            let deferred: any = this.$q.defer();
-            this.$http.post(`${baseUrl}roomMonitorFake`, data)
-                .then(() => {
-                    deferred.resolve();
-                })
-                .catch((err: any) => {
-                    deferred.reject(err);
-                });
-
-            return deferred.promise;
+            return this.networkService.post(this.constants.EndPoint.Device.SwitchLight, data);
         }
 
-        registerRoomMonitorFake(deviceId: string, name: string): ng.IPromise<string> {
-            let data: Object = {
-                roomMonitor: {
-                    deviceId: deviceId,
-                    name: name
-                }
-            };
-
-            let deferred: any = this.$q.defer();
-            this.$http.post(`${baseUrl}roomMonitorFake`, data)
-                .then(() => {
-                    deferred.resolve();
-                })
-                .catch((err: any) => {
-                    deferred.reject(err);
-                });
-
-            return deferred.promise;
-        }
     }
 
     angular

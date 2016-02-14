@@ -14,7 +14,7 @@ class RoomMonitorRoutes {
     }
 
     get routes(): any {
-        router.post("/roomMonitor/setLight", this._controller.setLight);
+        router.post("/api/roomMonitor/switchLight", this._controller.switchLight);
         return router;
     }
 }

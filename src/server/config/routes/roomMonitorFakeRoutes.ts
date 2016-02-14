@@ -14,12 +14,12 @@ class RoomMonitorFakeRoutes {
     }
 
     get routes(): any {
-        router.post("/roomMonitorFake", this._controller.create);
-        router.post("/roomMonitorFake/shutdown", this._controller.shutdown);
-        router.post("/roomMonitorFake/setLight", this._controller.setLight);
-        router.post("/roomMonitorFake/setMotion", this._controller.setMotion);
-        router.post("/roomMonitorFake/setSmoke", this._controller.setSmoke);
-        router.post("/roomMonitorFake/setTemperature", this._controller.setTemperature);
+        router.post("/api/roomMonitorFake", this._controller.create);
+        router.post("/api/roomMonitorFake/shutdown", this._controller.shutdown);
+        router.post("/api/roomMonitorFake/setLight", this._controller.setLight);
+        router.post("/api/roomMonitorFake/setMotion", this._controller.setMotion);
+        router.post("/api/roomMonitorFake/setSmoke", this._controller.setSmoke);
+        router.post("/api/roomMonitorFake/setTemperature", this._controller.setTemperature);
 
         return router;
     }

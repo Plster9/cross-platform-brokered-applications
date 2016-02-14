@@ -2,35 +2,46 @@
     <h2>Fake Room Monitor</h2>
 </header>
 
-<main class="view-main-fakeRoomMonitor">
+<main class="view-main">
 
-    <section ng-show="vm.registerRoomMonitorFake">
-        <form name="registerForm">
-            <div class="form-group">
-                <span class="label">Device Id</span>
-                <input ng-model="vm.deviceId" type="text" width="100" maxlength="5" required autofocus/>
-            </div>
+    <section class="room-monitor" ng-repeat="monitor in vm.roomMonitors">
+        <div class="form-group">
+            <span class="label">Device Id</span>
+            <span class="bold">{{ monitor.deviceId }}</span>
+        </div>
 
-            <div class="form-group">
-                <span class="label">Room Name</span>
-                <input ng-model="vm.name" type="text" width="100" maxlength="15" required/>
-            </div>
+        <div class="form-group">
+            <span class="label">Room Name</span>
+            <span class="bold">{{ monitor.name }}</span>
+        </div>
 
-            <div class="form-button-group">
-                <button ng-click="vm.register()">Register</button>
-            </div>
-
-            <div ng-init="vm.registerForm=registerForm"></div>
-        </form>
-    </section>
-
-    <section ng-show="vm.registered">
         <div class="form-group">
             <span class="label">Temperature</span>
-            <input ng-model="vm.temperature" type="range" width="100" id="temperature" class="range"
-                   min="-10" max="100" step="5"/>
-            <output for="temperature">{{vm.temperature}}</output>
-            <button ng-click="vm.setTemperature()">Set Temperature</button>
+            <input ng-model="monitor.temperature" type="range" width="100" class="range" min="-20" max="120" step="1"/>
+            <output>{{ monitor.temperature }}</output>
+            <button ng-click="vm.setTemperature(monitor)">Set Temperature</button>
+        </div>
+
+        <div class="form-group">
+            <span class="label">Detect Motion</span>
+            <input ng-model="monitor.motionState" type="checkbox" ng-true-value="1" ng-false-value="0"
+                   ng-click="vm.setMotion(monitor)"/>
+        </div>
+
+        <div class="form-group">
+            <span class="label">Detect Smoke</span>
+            <input ng-model="monitor.smokeState" type="checkbox" ng-true-value="1" ng-false-value="0"
+                   ng-click="vm.setSmoke(monitor)"/>
+        </div>
+
+        <div class="form-group">
+            <span class="label">Light Off/On</span>
+            <input ng-model="monitor.lightState" type="checkbox" ng-true-value="1" ng-false-value="0"
+                   ng-click="vm.setLight(monitor)"/>
+        </div>
+
+        <div class="form-button-group">
+            <button ng-click="vm.shutdown(monitor)">Shutdown Monitor</button>
         </div>
     </section>
 </main>

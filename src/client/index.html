@@ -9,21 +9,30 @@
         <!-- Style sheets -->
         <link href="css/font-awesome.min.css" rel="stylesheet"/>
         <link href="css/app.css" rel="stylesheet">
+        <link href="css/toaster.css" rel="stylesheet">
 
         <!-- Library scripts -->
         <script src="js/angular.min.js"></script>
         <script src="js/angular-ui-router.min.js"></script>
+        <script src="js/angular-animate.min.js"></script>
         <script src="js/moment.min.js"></script>
         <script src="js/underscore-min.js"></script>
         <script src="js/socket.io.js"></script>
+        <script src="js/toaster.min.js"></script>
 
         <!-- Module scripts -->
         <script src="app/app.module.js"></script>
+        <script src="app/app.constants.js"></script>
 
         <!-- Model scripts -->
+        <script src="app/model/roomMonitor.js"></script>
+        <script src="app/model/deviceShutdown.js"></script>
 
         <!-- Service scripts -->
+        <script src="app/services/networkService.js"></script>
         <script src="app/services/dataService.js"></script>
+        <script src="app/services/fakeDeviceDataService.js"></script>
+        <script src="app/services/formService.js"></script>
 
         <!-- Controllers scripts -->
         <script src="app/indexController.js"></script>
@@ -33,6 +42,7 @@
     </head>
 
     <body ng-app="app" ng-controller="IndexController as vm">
+        <toaster-container toaster-options="{'time-out': 2500, 'close-button':true, 'animation-class': 'toast-top-right'}"></toaster-container>
 
         <div class="application-container">
 

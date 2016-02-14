@@ -11,10 +11,11 @@ class Middleware {
     static get configuration(): any {
         let app: any = express();
         app.use((req: any, res: any, next: any) => {
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-            next();
-        });
+                res.header("Access-Control-Allow-Origin", "*");
+                res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+                next();
+            }
+        );
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({extended: true, limit: 1000}));
         app.use(new AppRoutes().routes);
