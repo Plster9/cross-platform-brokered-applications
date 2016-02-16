@@ -4,8 +4,9 @@
 
 <main class="view-main-column">
 
-    <section ng-hide="vm.fakeRoomMonitorsLaunched">
+    <section class="form-button-group" ng-hide="vm.fakeRoomMonitorsLaunched">
         <button ng-click="vm.launchFakeRoomMonitors()">Launch Fake Room Monitors</button>
+        <button ng-click="vm.useDashboardOnly()">Use Dashboard Only</button>
     </section>
 
     <section class="room-monitor" ng-repeat="monitor in vm.roomMonitors">

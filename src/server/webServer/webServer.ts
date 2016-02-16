@@ -40,14 +40,14 @@ class WebServer {
 
         let server: any = app.listen(Constants.ServerPort, Constants.ServerIP, () => {
                 this.outputText(
-                    `Express server directory: ${serverRootDirectory}, listening at http://${server.address().address}:${server.address().port}`
+                    `Web server root directory: ${serverRootDirectory}, listening at http://${server.address().address}:${server.address().port}`
                 );
 
                 this.socket = io.listen(server);
                 this.mqttClient = mqtt.connect(Constants.MqttConnectionString);
 
                 this.mqttClient.on(Constants.EventConnect, () => {
-                        this.outputText("Web Server connected to MQTT");
+                        this.outputText("Web server connected to MQTT");
 
                         // noinspection TypeScriptUnresolvedFunction
                         this.mqttClient.subscribe(Constants.TopicRoomStatus, {qos: 2});

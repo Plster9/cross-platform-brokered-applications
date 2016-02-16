@@ -47,6 +47,10 @@ namespace app {
             this.$window.open(this.constants.FakeRoomMonitorUrl, "_blank");
         }
 
+        useDashboardOnly(): void {
+            this.fakeRoomMonitorsLaunched = true;
+        }
+
         initializeSocket(): void {
             this.socket = io.connect(this.constants.EndPoint.Server.SocketIoEndPoint);
 

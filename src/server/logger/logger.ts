@@ -42,7 +42,6 @@ class Logger {
     }
 }
 
-
 process.title = "cpba-Logger";
 
 let logger: Logger = new Logger();
